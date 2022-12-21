@@ -1,0 +1,39 @@
+version: "3.5"
+
+networks:
+  inception:
+
+services:
+
+  wordpress:
+    container_name: wordpress
+    image: wordpress
+    build: ./wordpress
+    networks:
+      - inception
+    volumes:
+      - wordpress_vol:/var/www/html
+    restart: unless-stopped
+
+  nginx:
+    container_name: nginx
+    image: nginx
+    depends_on:
+      - wordpress
+    build: ./nginx
+    networks:
+      - inception
+    volumes:
+      - wordpress_vol:/var/www/html
+    ports:
+      - 443:443
+    restart: unless-stopped
+
+volumes:
+
+  wordpress_vol:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/pweinsto/data/wordpress
+      o: bind
