@@ -5,14 +5,29 @@ networks:
 
 services:
 
+  mariadb:
+    container_name: mariadb
+    image: mariadb
+    build:
+      context: ./requirements/mariadb
+    env_file: .env
+    networks:
+      - inception
+    volumes: 
+      - mariadb:/var/lib/mysql
+    restart: unless-stopped
+
   wordpress:
     container_name: wordpress
     image: wordpress
-    build: ./wordpress
+    build: ./requirements/wordpress
+    depends_on:
+      - mariadb
+    env_file: .env
     networks:
       - inception
     volumes:
-      - wordpress_files:/var/www/wordpress
+      - wordpress:/var/www/wordpress
     restart: unless-stopped
 
   nginx:
@@ -20,18 +35,25 @@ services:
     image: nginx
     depends_on:
       - wordpress
-    build: ./nginx
+    build: ./requirements/nginx
     networks:
       - inception
     volumes:
-      - wordpress_files:/var/www/wordpress
+      - wordpress:/var/www/wordpress
     ports:
       - 443:443
     restart: unless-stopped
 
 volumes:
 
-  wordpress_files:
+  mariadb:
+    driver: local
+    driver_opts:
+        device: /home/pweinsto/data/mariadb
+        type: none
+        o: bind
+
+  wordpress:
     driver: local
     driver_opts:
       type: none
