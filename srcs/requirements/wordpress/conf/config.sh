@@ -26,4 +26,6 @@ wp user create \
 				--user_pass=$WP_USER_PASSWORD \
 				--allow-root
 
+cd -
+
 php-fpm7.3 -F

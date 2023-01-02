@@ -4,7 +4,7 @@
 all:
 	mkdir -p /home/pweinsto/data/mariadb
 	mkdir -p /home/pweinsto/data/wordpress
-	docker-compose -f ./srcs/docker-compose.yml up 
+	docker-compose --env-file ./srcs/.env -f ./srcs/docker-compose.yml up --build -d
 
 clean:
 	docker-compose -f ./srcs/docker-compose.yml down

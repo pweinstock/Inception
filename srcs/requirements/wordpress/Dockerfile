@@ -2,8 +2,8 @@ FROM debian:buster
 
 RUN apt-get update && apt-get -y install \
 	curl \
-	php7.3-mysql \
 	php7.3-fpm \
+	php7.3-mysql \
 	&& rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /etc/php/7.3/fpm
