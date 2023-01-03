@@ -2,6 +2,7 @@ FROM debian:buster
 
 RUN apt-get update && apt-get -y install \
 	curl \
+	mariadb-client \
 	php7.3-fpm \
 	php7.3-mysql \
 	&& rm -rf /var/lib/apt/lists/*
